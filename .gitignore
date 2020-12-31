@@ -7,10 +7,17 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+#Custom : Ignore /.idea factors
+/.idea/codeStyles
+/.idea/dictionaries
+/.idea/.gitignore
+/.idea/*
+디자인.pptx
+
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 .log
-
