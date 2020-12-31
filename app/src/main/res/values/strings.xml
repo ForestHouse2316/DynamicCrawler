@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Dynamic\nCrawler</string>
+    <string name="app_version" translatable="false">ver.β (beta)</string>
+    <string name="nav_title" translatable="false">DynamicCrawler</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="action_settings">Setting</string>
+
+    <string name="menu_codes">CodeList</string>
+    <string name="menu_share">--Unimplemented--</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_help">Help</string>
+    <string name="str_delete">Delete</string>
+    <string name="str_add">Add</string>
+    <string name="str_confirm">Confirm</string>
+    <string name="str_cancel">Cancel</string>
+    <string name="str_deleted">Deleted</string>
+    <string name="str_create_new_code">Create new code</string>
+    <string name="str_code_name">Code Name</string>
+    <string name="str_create">Create</string>
+    <string name="str_delete_warn_msg">You cannot recover this code after code deleting.\\nDo you want to delete?</string>
+    <string name="str_create_code_hint">Please enter the code name</string>
+    <string name="str_error_occured">Error occurred :(</string>
+    <string name="str_saved">Saved</string>
+    <string name="str_too_fast">Too fast\\nPlease try again later</string>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="com.foresthouse.dynamiccrawler.ui.nav_fragment.codelist.CodeListFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_swipe_guide"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#2B3885"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <ImageView
+            android:id="@+id/img_swipe_guide_del"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            android:scaleType="fitStart"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_delete"
+            app:tint="#FFFFFF"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/img_swipe_guide_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:visibility="visible"
+            app:srcCompat="@drawable/edit"
+            tools:visibility="visible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_code_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_swipe_guide" />
+</androidx.constraintlayout.widget.ConstraintLayout>

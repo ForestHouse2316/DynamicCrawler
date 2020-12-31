@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dynamic\nCrawler</string>
+    <string name="action_settings">설정</string>
+    <string name="menu_codes">코드리스트</string>
+    <string name="menu_share">--기능 구현중--</string>
+    <string name="menu_setting">설정</string>
+    <string name="menu_help">도움말</string>
+    <string name="str_delete">삭제</string>
+    <string name="str_add">추가</string>
+    <string name="str_confirm">확인</string>
+    <string name="str_delete_warn_msg">삭제 후에는 복구할 수 없어요...\\n정말 삭제할까요?</string>
+    <string name="str_cancel">취소</string>
+    <string name="str_deleted">삭제되었습니다</string>
+    <string name="str_create_new_code">새 코드 생성</string>
+    <string name="str_code_name">코드명</string>
+    <string name="str_create">생성</string>
+    <string name="str_create_code_hint">코드명을 입력해주세요</string>
+    <string name="str_error_occured">오류 발생 :(</string>
+    <string name="str_saved">저장되었습니다</string>
+    <string name="str_too_fast">너무 빠릅니다\\n잠시 후 다시 시도해주세요</string>
+</resources>

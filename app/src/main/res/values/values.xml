@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="TextColor" format="color"/>
+    <attr name="RevTextColor" format="color"/>
+    <attr name="CellTextColor" format="color"/>
+
+    <attr name="NavTopColor" format="color"/>
+    <attr name="FabColor" format="color"/>
+    <attr name="CellColor" format="color"/>
+
+    <attr name="IconTint" format="color"/>
+</resources>
