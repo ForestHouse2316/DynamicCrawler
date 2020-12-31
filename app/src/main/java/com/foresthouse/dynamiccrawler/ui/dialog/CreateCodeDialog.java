@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.foresthouse.dynamiccrawler.R;
 import com.foresthouse.dynamiccrawler.ui.nav_fragment.codelist.CodeListFragment;
 import com.foresthouse.dynamiccrawler.utils.DataManager;
-import com.icpa.dynamiccrawler.R;
 
 public class CreateCodeDialog {
     private static final  String TAG = "[ CreateCodeDialog ]";

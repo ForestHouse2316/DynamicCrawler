@@ -1,6 +1,5 @@
 package com.foresthouse.dynamiccrawler.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +11,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.foresthouse.dynamiccrawler.MainActivity;
+import com.foresthouse.dynamiccrawler.R;
 import com.foresthouse.dynamiccrawler.ui.ItemTouch.ItemTouchHelperListener;
 import com.foresthouse.dynamiccrawler.ui.nav_fragment.codelist.CodeListFragment;
 import com.foresthouse.dynamiccrawler.utils.DataManager;
 import com.foresthouse.dynamiccrawler.utils.Generator;
 import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
-import com.foresthouse.dynamiccrawler.MainActivity;
-import com.icpa.dynamiccrawler.R;
 
 import java.util.ArrayList;
 

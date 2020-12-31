@@ -3,21 +3,15 @@ package com.foresthouse.dynamiccrawler;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.foresthouse.dynamiccrawler.ui.dialog.CreateCodeDialog;
 import com.foresthouse.dynamiccrawler.utils.DataManager;
-import com.foresthouse.dynamiccrawler.utils.Generator;
-import com.foresthouse.dynamiccrawler.utils.js.Api;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.icpa.dynamiccrawler.R;
-
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -47,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_SETTING = 3;
     public static final int FRAGMENT_HELP = 4;
 
-
+    public static final Handler MainHandler = new Handler();
 
 
 
@@ -104,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-
         Initialized = true;
     }
 
@@ -135,32 +127,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         MainContext = null;
     }
-
-
-
-//    public void runJS(String code) {
-//        org.mozilla.javascript.Context rhino = org.mozilla.javascript.Context.enter();
-//        rhino.setOptimizationLevel(-1);
-//        try{
-//            // 스코프 지정
-//            Scriptable scope = rhino.initStandardObjects();
-//            // Context 스코프 설정 (변수명 Context 로 앱 콘텍스트 사용 가능)
-//            ScriptableObject.putProperty(scope, "ctx", this);
-//
-//            // 커스텀 API 클래스를 라이노 엔진에 선언
-//            ScriptableObject.defineClass(scope, Api.class);
-//
-//
-//            rhino.evaluateString(scope, code, "JavaScript", 1, null);
-//        } catch (Exception e) {
-//            Generator.makeToastMessage(MainActivity.ApplicationContext, e.toString());
-//            Log.d(TAG, "runJS: "+e.toString());
-//        } finally {
-//            org.mozilla.javascript.Context.exit();
-//        }
-//    }
-
-
 
 
 }

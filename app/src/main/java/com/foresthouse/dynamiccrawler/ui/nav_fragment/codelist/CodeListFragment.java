@@ -8,19 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.foresthouse.dynamiccrawler.MainActivity;
+import com.foresthouse.dynamiccrawler.R;
+import com.foresthouse.dynamiccrawler.ui.ItemTouch.ItemTouchHelperCallback;
+import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
+import com.foresthouse.dynamiccrawler.utils.DataManager;
+import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.foresthouse.dynamiccrawler.utils.DataManager;
-import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
-import com.foresthouse.dynamiccrawler.MainActivity;
-import com.icpa.dynamiccrawler.R;
-import com.foresthouse.dynamiccrawler.ui.ItemTouch.ItemTouchHelperCallback;
-import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
 
 public class CodeListFragment extends Fragment {
     private static final String TAG = "[ CodeListFragment ]";

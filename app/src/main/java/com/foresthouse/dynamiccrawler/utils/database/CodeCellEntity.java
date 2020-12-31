@@ -1,5 +1,7 @@
 package com.foresthouse.dynamiccrawler.utils.database;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,7 @@ public class CodeCellEntity implements Serializable {
         this.code = code;
         this.isCompiled = true;
     }
-    public CodeCellEntity(String name, boolean thirdparty, boolean trigger, @Nullable String code){
+    public CodeCellEntity(@NotNull String name, boolean thirdparty, boolean trigger, @Nullable String code){
         this.name = name;
         this.thirdparty = thirdparty;
         this.trigger = trigger;

@@ -4,10 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-
+import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
 import com.foresthouse.dynamiccrawler.utils.database.AppDataBase;
 import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
-import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -22,16 +21,6 @@ public class DataManager {
     public static String getStringResource(Context context, int id) {
         return context.getString(id).replace("\\n", "\n");
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
