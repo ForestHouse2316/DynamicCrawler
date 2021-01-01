@@ -13,13 +13,24 @@ import org.mozilla.javascript.ScriptableObject;
 import java.util.Arrays;
 
 
-public class JavaScriptManager implements Runnable{ //TODO 백그라운드에서 실행하기
-    private static final String TAG = "[ JavaScriptManager ]";
+
+public class JavaScriptEngineManager implements Runnable{ //TODO 백그라운드에서 실행하기
+    private static final String TAG = "[ JavaScriptEngineManager ]";
 
     private final String code;
+    static Thread JSEngineThread = null;
 
-    public JavaScriptManager(String code) {
+    public JavaScriptEngineManager(String code) {
         this.code = code;
+    }
+
+    public void startEngineInBackground() {
+        if (JSEngineThread == null) {
+            JSEngineThread = new Thread(this);
+            JSEngineThread.start();
+        } else {
+            throw new IllegalStateException("JS Engine is running on another thread.");
+        }
     }
 
     @Override
@@ -34,7 +45,7 @@ public class JavaScriptManager implements Runnable{ //TODO 백그라운드에서
             // 스코프 지정
             Scriptable scope = rhino.initStandardObjects();
             // 전역변수 설정
-//            ScriptableObject.putProperty(scope, "Context", MainActivity.ApplicationContext); // 보안문제로 인하여 콘텍스트 제공안함
+            //            ScriptableObject.putProperty(scope, "Context", MainActivity.ApplicationContext); // 보안문제로 인하여 콘텍스트 제공안함
             ScriptableObject.putProperty(scope, "Jsoup", Jsoup.class);
 
             // 커스텀 API 클래스를 라이노 엔진에 선언
@@ -61,6 +72,7 @@ public class JavaScriptManager implements Runnable{ //TODO 백그라운드에서
             Log.d(TAG, "runJS: " + Arrays.toString(e.getStackTrace()));
         } finally {
             Context.exit();
+            JSEngineThread = null;
         }
     }
 

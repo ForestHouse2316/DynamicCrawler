@@ -13,7 +13,7 @@ import com.foresthouse.dynamiccrawler.utils.DataManager;
 import com.foresthouse.dynamiccrawler.utils.Generator;
 import com.foresthouse.dynamiccrawler.utils.Reflectable;
 import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
-import com.foresthouse.dynamiccrawler.utils.js.JavaScriptManager;
+import com.foresthouse.dynamiccrawler.utils.js.JavaScriptEngineManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-//import com.foresthouse.dynamiccrawler.utils.js.JavaScriptManager;
+//import com.foresthouse.dynamiccrawler.utils.js.JavaScriptEngineManager;
 
 public class EditorActivity extends AppCompatActivity implements Reflectable {
     private static final String TAG = "EditorActivity";
@@ -69,12 +69,15 @@ public class EditorActivity extends AppCompatActivity implements Reflectable {
             @Override
             public boolean onLongClick(View view) { // Long click
                 save();
-                new Thread(new JavaScriptManager(curCell.code)).start();
-//                JavaScriptManager.runJS(curCell.code);
+//                Thread JSEngine = new Thread(new JavaScriptEngineManager(curCell.code));
+                JavaScriptEngineManager jsManager = new JavaScriptEngineManager(curCell.code); //이런 식으로 해서 크롤링 대기열 만드는거 어떰? 큐 만들어서 스레드 객체 넣어놓고 순차적으로 스타트 시키는거야!
+                jsManager.startEngineInBackground();
                 ignoreOnce = true;
                 return false;
             }
         });
+
+
 
     }
 
@@ -96,7 +99,6 @@ public class EditorActivity extends AppCompatActivity implements Reflectable {
             QueriedCode.postValue("//Start a new code!");
         }
     }
-
 
     @Override
     protected void onStop() {

@@ -101,6 +101,23 @@ public class MainActivity extends AppCompatActivity {
         Initialized = true;
     }
 
+    public static void postAndWait(Thread thread, boolean useViewListener, Runnable r) {
+        MainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    thread.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                MainHandler.post(r);
+                r.run(); // Already main thread
+                if (!useViewListener) {
+                    thread.notify();
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,20 +125,16 @@ public class MainActivity extends AppCompatActivity {
 //        getMenuInflater().inflate(R.menu.main_activity2, menu);
         return true;
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
 
     }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -130,5 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
 
 

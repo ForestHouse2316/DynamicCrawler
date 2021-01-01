@@ -6,13 +6,12 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import androidx.annotation.Nullable;
 
 public class Generator {
     public final static String TAG = "[ Generator ]";
 
-    public static void makeYNDialog(Context context, String title, String content, @Nullable String btnY, @Nullable String btnN , @Nullable String btnNeutral,
+    public static void makeYNDialog(Context context, String title, String content, @Nullable String btnY, @Nullable String btnN , @Nullable String btnNeutral, //빌드패턴 적용하여 파라미터 간소화하기
                                        final @Nullable DialogInterface.OnClickListener YesCommand,
                                        final @Nullable DialogInterface.OnClickListener NoCommand,
                                     final @Nullable DialogInterface.OnClickListener NeutralCommand,

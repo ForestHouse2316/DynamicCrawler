@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.foresthouse.dynamiccrawler.MainActivity;
 import com.foresthouse.dynamiccrawler.R;
@@ -13,7 +15,6 @@ import com.foresthouse.dynamiccrawler.utils.Generator;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSStaticFunction;
 
-import static com.foresthouse.dynamiccrawler.MainActivity.MainHandler;
 import static com.foresthouse.dynamiccrawler.ui.EditorActivity.crawler;
 import static com.foresthouse.dynamiccrawler.utils.js.DCJavascriptInterface.CrawledHtml;
 
@@ -33,11 +34,6 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
 
 
 
-
-
-
-
-
     // Debug Command
     @JSStaticFunction
     public static String hello() {
@@ -49,18 +45,28 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void makeToast(String msg) {
-        Generator.makeToastMessage(MainActivity.ApplicationContext, msg);
+        MainActivity.postAndWait(Thread.currentThread(), false, new Runnable() {
+            @Override
+            public void run() {
+                Generator.makeToastMessage(MainActivity.ApplicationContext, msg);
+            }
+        });
     }
     @JSStaticFunction
     public static void makePopup(String title, String msg) {
-        Generator.makeYNDialog(MainActivity.ApplicationContext, title, msg,
-                               null, null, null, null, null, null,null);
+        MainActivity.postAndWait(Thread.currentThread(), false, new Runnable() {
+            @Override
+            public void run() {
+                Generator.makeYNDialog(MainActivity.ApplicationContext, title, msg,
+                                       null, null, null, null, null, null,null);
+            }
+        });
     }
 
     // View Property Command
     @JSStaticFunction
     public static void maximizeWindow() {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
             @Override
             public void run() {
                 crawler.setVisibility(View.VISIBLE);
@@ -69,7 +75,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void minimizeWindow() {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
             @Override
             public void run() {
                 crawler.setVisibility(View.GONE);
@@ -81,7 +87,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     @SuppressLint("SetJavaScriptEnabled")
     @JSStaticFunction
     public static void start() {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
             @Override
             public void run() {
                 if (crawler == null) {
@@ -101,7 +107,15 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
                     crawler.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
                     crawler.addJavascriptInterface(new DCJavascriptInterface(), "Android");
                     crawler.setWebChromeClient(new WebChromeClient());
-                    //TODO loadUrl 하면 다음 코드 실행 전에 로드 다 될 때까지 기다리는거 만들기
+                    crawler.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            try {
+                                JavaScriptEngineManager.JSEngineThread.notify();
+                            } catch (NullPointerException ignore) {}
+                        }
+                    });
                 }
             }
         });
@@ -114,7 +128,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void disableJS() {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
             @Override
             public void run() {
                 crawler.getSettings().setJavaScriptEnabled(false);
@@ -123,7 +137,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void loadUrl(String url) {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
             @Override
             public void run() {
                 crawler.loadUrl(url);
@@ -135,22 +149,29 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
         return api._getHtml();
     }
     private synchronized String _getHtml() {
-        MainHandler.post(new Runnable() {
+        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
             @Override
             public void run() {
                 crawler.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].innerHTML);");
             }
         });
-        String source = CrawledHtml;
-        CrawledHtml = null;
-        while(source != null) {
+        while(CrawledHtml != null) {
             try {
                 wait();
             } catch (InterruptedException ignore) { }
         }
+        String source = CrawledHtml;
+        CrawledHtml = null;
         return source;
     }
     @JSStaticFunction
-    public static void execute(String command) { crawler.loadUrl("javascript:(function() { document." + command + "; } )()"); }
+    public static void execute(String command) {
+        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
+            @Override
+            public void run() {
+                crawler.loadUrl("javascript:(function() { document." + command + "; } )()");
+            }
+        });
+    }
 
 }

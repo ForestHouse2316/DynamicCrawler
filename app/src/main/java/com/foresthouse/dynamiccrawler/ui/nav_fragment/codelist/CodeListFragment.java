@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CodeListFragment extends Fragment {
     private static final String TAG = "[ CodeListFragment ]";
@@ -47,7 +48,7 @@ public class CodeListFragment extends Fragment {
         RecyclerAdapter.animCount = 0;
 
         //리사이클러뷰 초기화
-        CodeList = (RecyclerView) root.findViewById(R.id.recycler_code_list);
+        CodeList = root.findViewById(R.id.recycler_code_list);
         CodeListLayoutManager = new LinearLayoutManager(container.getContext()){
             @Override
             public void onLayoutCompleted(RecyclerView.State state) {
@@ -101,6 +102,24 @@ public class CodeListFragment extends Fragment {
 //                super.onDraw(c, parent, state);
             }
         });
+
+        //리사이클러뷰 스와이프 리프레시 설정
+        androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeLayout = root.findViewById(R.id.layout_code_list_refresh);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                CodeListAdapter.notifyDataSetChanged();
+                swipeLayout.setRefreshing(false);
+            }
+        });
+
+
+
+
+
+
+
+
 
 
         return root;
