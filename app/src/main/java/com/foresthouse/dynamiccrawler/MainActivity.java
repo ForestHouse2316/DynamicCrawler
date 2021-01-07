@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.foresthouse.dynamiccrawler.ui.dialog.CreateCodeDialog;
 import com.foresthouse.dynamiccrawler.utils.DataManager;
+import com.foresthouse.dynamiccrawler.utils.Waitable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -101,22 +102,18 @@ public class MainActivity extends AppCompatActivity {
         Initialized = true;
     }
 
-    public static void postAndWait(Thread thread, boolean useViewListener, Runnable r) {
+    public static void postAndWait(Waitable waitable, boolean useViewListener, Runnable r) { // JSEngine 스레드에서 호출되고 여기서 실제로 메인스레드로 넘어감
         MainHandler.post(new Runnable() {
             @Override
             public void run() {
-                try {
-                    thread.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 //                MainHandler.post(r);
                 r.run(); // Already main thread
-                if (!useViewListener) {
-                    thread.notify();
+                if (!useViewListener) { // 따로 뷰의 리스너를 통해 작업 완료시 스레드 재게를 처리하지 않는다면 여기서 JS 스레드를 다시 시작시켜줌
+                    waitable.stopWaiting();
                 }
             }
         });
+        waitable.startWaiting(10); // TODO 나중에 만약 성능설정이 생긴다면 인터벌값 바꿀 수 있게 하자
     }
 
     @Override

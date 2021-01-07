@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.foresthouse.dynamiccrawler.MainActivity;
 import com.foresthouse.dynamiccrawler.utils.Generator;
+import com.foresthouse.dynamiccrawler.utils.Waitable;
 
 import org.jsoup.Jsoup;
 import org.mozilla.javascript.Context;
@@ -11,26 +12,28 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 
-
-public class JavaScriptEngineManager implements Runnable{ //TODO 백그라운드에서 실행하기
+public class JavaScriptEngineManager implements Runnable, Waitable {
     private static final String TAG = "[ JavaScriptEngineManager ]";
 
+//    JavaScriptEngineManager JSEngineObj;
+//    Thread JSEngineThread = null;
+    public static HashMap<String, JavaScriptEngineManager> JSEngineObjMap = new HashMap<>();
+    boolean wait;
     private final String code;
-    static Thread JSEngineThread = null;
 
     public JavaScriptEngineManager(String code) {
         this.code = code;
+        wait = false;
     }
 
     public void startEngineInBackground() {
-        if (JSEngineThread == null) {
-            JSEngineThread = new Thread(this);
-            JSEngineThread.start();
-        } else {
-            throw new IllegalStateException("JS Engine is running on another thread.");
-        }
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        JSEngineObjMap.put(thread.getName(), this);
+        thread.start();
     }
 
     @Override
@@ -38,7 +41,7 @@ public class JavaScriptEngineManager implements Runnable{ //TODO 백그라운드
         runJS(code);
     }
 
-    public static void runJS(String code) {
+    public void runJS(String code) {
         Context rhino = Context.enter();
         rhino.setOptimizationLevel(-1);
         try{
@@ -57,6 +60,7 @@ public class JavaScriptEngineManager implements Runnable{ //TODO 백그라운드
                 public void onSuspended() {
                     try {
                         Context.exit();
+                        JSEngineObjMap.remove(Thread.currentThread().getName());
                     } catch (IllegalStateException ignore) {}
                 }
             });
@@ -72,8 +76,25 @@ public class JavaScriptEngineManager implements Runnable{ //TODO 백그라운드
             Log.d(TAG, "runJS: " + Arrays.toString(e.getStackTrace()));
         } finally {
             Context.exit();
-            JSEngineThread = null;
+            JSEngineObjMap.remove(Thread.currentThread().getName());
         }
     }
 
+    @Override
+    public void startWaiting(int interval) {
+        wait = WAIT;
+        while (wait == WAIT) {
+            if (interval > 0) {
+                try {
+                    Thread.sleep(interval);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    @Override
+    public void stopWaiting() {
+        wait = RESUME;
+    }
 }

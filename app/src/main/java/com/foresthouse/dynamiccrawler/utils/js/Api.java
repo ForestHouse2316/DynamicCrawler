@@ -11,6 +11,7 @@ import android.webkit.WebViewClient;
 import com.foresthouse.dynamiccrawler.MainActivity;
 import com.foresthouse.dynamiccrawler.R;
 import com.foresthouse.dynamiccrawler.utils.Generator;
+import com.foresthouse.dynamiccrawler.utils.Waitable;
 
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSStaticFunction;
@@ -18,13 +19,17 @@ import org.mozilla.javascript.annotations.JSStaticFunction;
 import static com.foresthouse.dynamiccrawler.ui.EditorActivity.crawler;
 import static com.foresthouse.dynamiccrawler.utils.js.DCJavascriptInterface.CrawledHtml;
 
-public class Api extends ScriptableObject { // TODO 여기 명령어들에게 핸들러 주기
+public class Api extends ScriptableObject {
     private static final String TAG = "{ JS Debug Log } >>>";
 
     private static final Api api = new Api();
 
     private static OnSuspendedListener suspendCommand;
     static void setOnInterruptedListener(OnSuspendedListener onSuspendedListener) { suspendCommand = onSuspendedListener; }
+
+    private static JavaScriptEngineManager getJSEngineObj() {
+        return JavaScriptEngineManager.JSEngineObjMap.get(Thread.currentThread().getName());
+    }
 
     @Override
     public String getClassName() {
@@ -45,7 +50,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void makeToast(String msg) {
-        MainActivity.postAndWait(Thread.currentThread(), false, new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 Generator.makeToastMessage(MainActivity.ApplicationContext, msg);
@@ -54,7 +59,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void makePopup(String title, String msg) {
-        MainActivity.postAndWait(Thread.currentThread(), false, new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 Generator.makeYNDialog(MainActivity.ApplicationContext, title, msg,
@@ -66,7 +71,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     // View Property Command
     @JSStaticFunction
     public static void maximizeWindow() {
-        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.setVisibility(View.VISIBLE);
@@ -75,7 +80,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void minimizeWindow() {
-        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.setVisibility(View.GONE);
@@ -87,7 +92,8 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     @SuppressLint("SetJavaScriptEnabled")
     @JSStaticFunction
     public static void start() {
-        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
+        Waitable waitable = getJSEngineObj();
+        MainActivity.postAndWait(waitable, false, new Runnable() {
             @Override
             public void run() {
                 if (crawler == null) {
@@ -112,7 +118,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
                         public void onPageFinished(WebView view, String url) {
                             super.onPageFinished(view, url);
                             try {
-                                JavaScriptEngineManager.JSEngineThread.notify();
+                                waitable.stopWaiting();
                             } catch (NullPointerException ignore) {}
                         }
                     });
@@ -128,7 +134,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void disableJS() {
-        MainActivity.postAndWait(Thread.currentThread(), false,new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.getSettings().setJavaScriptEnabled(false);
@@ -137,7 +143,7 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     }
     @JSStaticFunction
     public static void loadUrl(String url) {
-        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.loadUrl(url);
@@ -148,25 +154,29 @@ public class Api extends ScriptableObject { // TODO 여기 명령어들에게 �
     public static String getHtml() {
         return api._getHtml();
     }
-    private synchronized String _getHtml() {
-        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
+    private String _getHtml() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].innerHTML);");
             }
         });
-        while(CrawledHtml != null) {
+        for (int i = 0; i < 500; i++) { // Timeout = 5s
             try {
-                wait();
+                Thread.sleep(10);
+                if (CrawledHtml != null) {
+                    break;
+                }
             } catch (InterruptedException ignore) { }
         }
+
         String source = CrawledHtml;
         CrawledHtml = null;
         return source;
     }
     @JSStaticFunction
     public static void execute(String command) {
-        MainActivity.postAndWait(Thread.currentThread(), true,new Runnable() {
+        MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
                 crawler.loadUrl("javascript:(function() { document." + command + "; } )()");
