@@ -81,7 +81,7 @@ public class JavaScriptEngineManager implements Runnable, Waitable {
     }
 
     @Override
-    public void startWaiting(int interval) {
+    public void startWaiting(int interval) { //TODO 가능하면 RxJava 로 구현해보기
         wait = WAIT;
         while (wait == WAIT) {
             if (interval > 0) {

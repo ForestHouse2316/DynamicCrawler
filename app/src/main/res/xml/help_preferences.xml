@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:title="Basic"
+        app:iconSpaceReserved="false">
+        <PreferenceScreen
+            android:title="@string/help_basic_guide"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.BasicGuide"></intent>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="@string/help_ex_connect_to_google"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.ExConnectGoogle" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="API &amp; Working Principle"
+        app:iconSpaceReserved="false">
+        <PreferenceScreen
+            android:title="APIs"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.APIs" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="@string/help_working_principle"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.WorkingPrinciple" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

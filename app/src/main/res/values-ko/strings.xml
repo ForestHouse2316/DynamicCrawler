@@ -9,7 +9,7 @@
     <string name="str_delete">삭제</string>
     <string name="str_add">추가</string>
     <string name="str_confirm">확인</string>
-    <string name="str_delete_warn_msg">삭제 후에는 복구할 수 없어요...\\n정말 삭제할까요?</string>
+    <string name="str_delete_warn_msg">삭제 후에는 복구할 수 없어요…\\n정말 삭제할까요?</string>
     <string name="str_cancel">취소</string>
     <string name="str_deleted">삭제되었습니다</string>
     <string name="str_create_new_code">새 코드 생성</string>
@@ -20,4 +20,18 @@
     <string name="str_saved">저장되었습니다</string>
     <string name="str_too_fast">너무 빠릅니다\\n잠시 후 다시 시도해주세요</string>
     <string name="str_failed_to_load">로드 실패</string>
+    <string name="set_cat_general">일반</string>
+    <string name="set_interpreting_interval">인터프리터 명령 수행 간격</string>
+    <string name="set_interpreting_interval_summary">명령 수행 간격을 지정합니다.(밀리 초) 간격이 짧을 수록 속도는 빨라지지만 더 많은 리소스를 사용합니다.</string>
+    <string name="str_deprecated_fileIO">보안정책에 의해 Android Q 이상의 버전부터는 절대경로 가져오기는 지원되지 않습니다.</string>
+    <string name="set_html_parse_timeout">HTML 파싱 타임아웃</string>
+    <string name="ser_html_parse_timeout_summary">Api.getHtml() 의 시간제한을 설정합니다.(초)</string>
+    <string name="str_info">정보</string>
+    <string name="set_goto_dev_youtube">개발자 유튜브 가기</string>
+    <string name="set_goto_dev_blog">개발자 블로그 가기</string>
+    <string name="set_patch_note">패치노트</string>
+    <string name="help_basic_guide">기본 사용법</string>
+    <string name="help_working_principle">작동원리</string>
+    <string name="help_ex_connect_to_google">예제 - 구글 접속하기</string>
+    <string name="env_language_code">ko</string>
 </resources>

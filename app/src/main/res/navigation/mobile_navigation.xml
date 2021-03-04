@@ -20,6 +20,10 @@
     <fragment
         android:id="@+id/nav_setting"
         android:name="com.foresthouse.dynamiccrawler.ui.nav_fragment.setting.SettingFragment"
-        android:label="@string/menu_setting"
-        tools:layout="@layout/fragment_setting" />
+        android:label="@string/menu_setting" />
+
+    <fragment
+        android:id="@id/nav_help"
+        android:name="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.HelpFragment"
+        android:label="@string/menu_help" />
 </navigation>

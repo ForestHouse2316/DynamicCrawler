@@ -1,6 +1,8 @@
 package com.foresthouse.dynamiccrawler.utils.js;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -10,6 +12,8 @@ import android.webkit.WebViewClient;
 
 import com.foresthouse.dynamiccrawler.MainActivity;
 import com.foresthouse.dynamiccrawler.R;
+import com.foresthouse.dynamiccrawler.utils.DataManager;
+import com.foresthouse.dynamiccrawler.utils.Distinguisher;
 import com.foresthouse.dynamiccrawler.utils.Generator;
 import com.foresthouse.dynamiccrawler.utils.Waitable;
 
@@ -62,10 +66,38 @@ public class Api extends ScriptableObject {
         MainActivity.postAndWait(getJSEngineObj(), false, new Runnable() {
             @Override
             public void run() {
-                Generator.makeYNDialog(MainActivity.ApplicationContext, title, msg,
-                                       null, null, null, null, null, null,null);
+                Generator.makeYNDialog(MainActivity.ApplicationContext, title, msg, null, null, null, null, null, null, null);
             }
         });
+    }
+
+    // File Command
+    @JSStaticFunction
+    public static String getDefaultPath() {
+        return MainActivity.ApplicationContext.getFilesDir().getPath();
+    }
+
+    @JSStaticFunction
+    public static String getAbsolutePath() {
+        if (Distinguisher.checkSDKVersion() <= Build.VERSION_CODES.P) {
+            return Environment.getExternalStorageDirectory().getAbsolutePath();
+        } else {
+            MainActivity.MainHandler.post(() -> Generator
+                    .makeNotifyDialog(MainActivity.ApplicationContext, "Warning", DataManager.getStringResource(R.string.str_deprecated_fileIO),
+                                      DataManager.getStringResource(R.string.str_confirm)));
+            suspend();
+            return null;
+        }
+    }
+
+    @JSStaticFunction
+    public static void writeFile(String path, String fileName, String content) {
+        DataManager.writeFile(path, fileName, content);
+    }
+
+    @JSStaticFunction
+    public static String readFile(String path, String fileName) {
+        return DataManager.readFile(path, fileName);
     }
 
     // View Property Command
@@ -161,13 +193,15 @@ public class Api extends ScriptableObject {
                 crawler.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].innerHTML);");
             }
         });
-        for (int i = 0; i < 500; i++) { // Timeout = 5s
+        for (int i = 0; i < Integer
+                .parseInt(DataManager.RootPreference.getString("set_html_parse_timeout", "5")) * 100; i++) { // Default Timeout = 5s
             try {
                 Thread.sleep(10);
                 if (CrawledHtml != null) {
                     break;
                 }
-            } catch (InterruptedException ignore) { }
+            } catch (InterruptedException ignore) {
+            }
         }
 
         String source = CrawledHtml;

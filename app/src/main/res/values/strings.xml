@@ -26,4 +26,23 @@
     <string name="str_saved">Saved</string>
     <string name="str_too_fast">Too fast\\nPlease try again later</string>
     <string name="str_failed_to_load">Failed to load</string>
+    <string name="set_cat_general">General</string>
+    <string name="set_interpreting_interval">Interpreting Interval</string>
+    <string name="set_interpreting_interval_summary">Set the interval between commands.(milli sec) Smaller interval enhances speed, but it requires more resource.</string>
+    <string name="str_deprecated_fileIO">Getting absolute directory does not support upper Android Q and later versions because of security policy.</string>
+    <string name="set_html_parse_timeout">HTML Parsing Timeout</string>
+    <string name="str_info">Info</string>
+    <string name="set_goto_dev_youtube">Go to Dev\'s YouTube Channel</string>
+    <string name="set_goto_dev_blog">Go to Dev\'s Blog</string>
+    <string name="set_patch_note">Patch Note</string>
+    <string name="ser_html_parse_timeout_summary">Set timeout of Api.getHtml().(sec)</string>
+    <string name="help_basic_guide">Basic Guide</string>
+    <string name="help_working_principle">Working Principle</string>
+    <string name="help_ex_connect_to_google">Ex - Connect to GOOGLE</string>
+    <string name="env_language_code">en</string>
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
 </resources>

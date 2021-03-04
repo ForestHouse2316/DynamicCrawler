@@ -30,13 +30,23 @@ public class Generator {
         }
         if (CancelCommand == null) { //리스너에 null 등록하면 취소불가
             builder.setCancelable(false);
-        } else{
+        } else {
             builder.setOnCancelListener(CancelCommand);
         }
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        Log.d(TAG, "makeYNDialog: <"+title+"> 다이얼로그 생성");
+        Log.d(TAG, "makeYNDialog: <" + title + "> 다이얼로그 생성");
+    }
+
+    public static void makeNotifyDialog(Context context, String title, String content, String btnY) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title).setMessage(content);
+        builder.setPositiveButton(btnY, null);
+        builder.setCancelable(false);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        Log.d(TAG, "makeNotifyDialog: <" + title + "> 다이얼로그 생성");
     }
 
     public static void makeToastMessage(Context context, String content) {

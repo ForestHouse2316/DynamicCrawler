@@ -4,6 +4,7 @@
 <!--        <item name="windowActionBar">false</item>-->
 <!--        <item name="windowNoTitle">true</item>-->
 <!--        <item name="android:windowFullscreen">false</item>-->
+        <item name="iconSpaceReserved">false</item>
 
 
         <item name="android:windowBackground">@android:color/background_light</item>

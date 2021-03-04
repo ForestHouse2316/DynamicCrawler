@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,16 +46,14 @@ public class MainActivity extends AppCompatActivity {
     public static final Handler MainHandler = new Handler();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         //초기 로딩화면 딜레이
         try {
             Thread.sleep(1000);
-            DataManager.Initialize(this);
+            DataManager.initialize(this);
             setTheme(R.style.AppTheme);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -103,17 +102,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void postAndWait(Waitable waitable, boolean useViewListener, Runnable r) { // JSEngine 스레드에서 호출되고 여기서 실제로 메인스레드로 넘어감
+        //
         MainHandler.post(new Runnable() {
             @Override
             public void run() {
-//                MainHandler.post(r);
+                //                MainHandler.post(r);
                 r.run(); // Already main thread
                 if (!useViewListener) { // 따로 뷰의 리스너를 통해 작업 완료시 스레드 재게를 처리하지 않는다면 여기서 JS 스레드를 다시 시작시켜줌
                     waitable.stopWaiting();
+                    Log.d(TAG, "run: post 처리 완료. 대기 해제");
                 }
             }
         });
-        waitable.startWaiting(10); // TODO 나중에 만약 성능설정이 생긴다면 인터벌값 바꿀 수 있게 하자
+        waitable.startWaiting(Integer.parseInt(DataManager.RootPreference.getString("interpreting_interval", "10")));
+        Log.d(TAG, "postAndWait: post 후 대기중. . .");
     }
 
     @Override

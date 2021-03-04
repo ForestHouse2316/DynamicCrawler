@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:title="@string/set_cat_general"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="10"
+            android:key="interpreting_interval"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/set_interpreting_interval_summary"
+            android:title="@string/set_interpreting_interval" />
+        <EditTextPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="5"
+            android:key="set_html_parse_timeout"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/ser_html_parse_timeout_summary"
+            android:title="@string/set_html_parse_timeout" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/str_info"
+        app:iconSpaceReserved="false">
+
+        <PreferenceScreen
+            android:title="3rd Party Sources"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.setting.ThirdPartyInfo" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:title="@string/set_patch_note"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetPackage="com.foresthouse.dynamiccrawler"
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.setting.PatchNote" />
+        </PreferenceScreen>
+
+
+        <PreferenceScreen
+            app:iconSpaceReserved="false"
+            android:clickable="false"
+            android:title="DEV : ForestHouse" />
+        <PreferenceScreen
+            app:iconSpaceReserved="false"
+            android:title="@string/set_goto_dev_youtube">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.youtube.com/channel/UCHCH27i-D7uOwi5mMqTF1wA" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            app:iconSpaceReserved="false"
+            android:title="@string/set_goto_dev_blog">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://blog.naver.com/leo2316" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

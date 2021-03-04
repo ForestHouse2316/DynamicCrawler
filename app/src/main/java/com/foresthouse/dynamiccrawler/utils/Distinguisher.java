@@ -2,24 +2,29 @@ package com.foresthouse.dynamiccrawler.utils;
 
 import android.os.Build;
 
+import java.util.Locale;
+
 public class Distinguisher {
 
-    public static boolean isDigit(char obj){
+    public static boolean isDigit(char obj) {
         return isDigit(String.valueOf(obj));
     }
-    public static boolean isDigit(String obj){
-        try{
+
+    public static boolean isDigit(String obj) {
+        try {
             Integer.parseInt(obj);
             return true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    public static int checkSDKVersion(){
+    public static int checkSDKVersion() {
         return Build.VERSION.SDK_INT;
     }
 
-
+    public static String getDefaultLanguage() {
+        return Locale.getDefault().getLanguage();
+    }
 
 }

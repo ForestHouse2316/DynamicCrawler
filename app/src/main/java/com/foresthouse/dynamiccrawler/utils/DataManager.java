@@ -1,39 +1,117 @@
 package com.foresthouse.dynamiccrawler.utils;
+//TODO DATAMANAGER의 Async를 모두 RxJava 또는 스레드로 바꿔서 사용하기...
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.foresthouse.dynamiccrawler.MainActivity;
 import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
 import com.foresthouse.dynamiccrawler.utils.database.AppDataBase;
 import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 public class DataManager {
     private final static String TAG = "[ DataManager ]";
 
     public static AppDataBase DB;
+    public static SharedPreferences RootPreference;
     private static ArrayList<CodeCellEntity> mArrayList;
 
-    public static String getStringResource(Context context, int id) {
-        return context.getString(id).replace("\\n", "\n");
+    public static void initialize(Context ctx) {
+        Initializer initializer = new Initializer(ctx);
+        Thread thread = new Thread(initializer);
+        thread.setDaemon(true);
+        thread.start();
     }
 
+    private static class Initializer implements Runnable {
+        Context ctx;
 
+        Initializer(Context ctx) {
+            this.ctx = ctx;
+        }
 
-    public static void Initialize(Context ctx) {
-        DB = AppDataBase.getAppDataBase(ctx);
+        @Override
+        public void run() {
+            DB = AppDataBase.getAppDataBase(ctx);
+            RootPreference = PreferenceManager.getDefaultSharedPreferences(MainActivity.ApplicationContext);
+        }
+    }
+
+    public static String getStringResource(int id) {
+        return MainActivity.ApplicationContext.getString(id).replace("\\n", "\n");
+    }
+
+    //파일 입출력
+    public static void writeFile(String path, String fileName, String content) {
+        File file = new File(path, fileName);
+        FileWriter fw = null;
+        BufferedWriter bufw = null;
+        try {
+            fw = new FileWriter(file);
+            bufw = new BufferedWriter(fw);
+            bufw.write(content);
+            bufw.flush();
+        } catch (IOException e) {
+            MainActivity.MainHandler
+                    .post(() -> Generator.makeToastMessage(MainActivity.ApplicationContext, "IOException occurred\nPlease try again"));
+        } finally {
+            try {
+                if (fw != null) fw.close();
+                if (bufw != null) bufw.close();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void writeFileInBackground(String path, String fileName, String content) {
+        ThreadManager.runInAnotherThread(() -> {
+            writeFile(path, fileName, content);
+        }, false);
+    }
+
+    public static String readFile(String path, String fileName) { // Run in MainThread because of synchronization.
+        File file = new File(path, fileName);
+        FileReader fr = null;
+        BufferedReader bufr = null;
+        String content = null;
+        try {
+            fr = new FileReader(file);
+            bufr = new BufferedReader(fr);
+            content = bufr.lines().collect(Collectors.joining());
+        } catch (FileNotFoundException e) {
+            Generator.makeToastMessage(MainActivity.ApplicationContext, "IOException occurred\nPlease try again");
+        } finally {
+            try {
+                if (fr != null) fr.close();
+                if (bufr != null) bufr.close();
+            } catch (Exception ignore) {
+            }
+        }
+        return content;
     }
 
     //코드 추가
-    public static void insertData(String name, boolean thirdparty, boolean trigger, @Nullable String code){
+    public static void insertData(String name, boolean thirdparty, boolean trigger, @Nullable String code) {
         new InsertAsyncTask().execute(new CodeCellEntity(name, thirdparty, trigger, code));
-        Log.d(TAG, "insertData: DB에 < "+name+" > 코드 추가");
+        Log.d(TAG, "insertData: DB에 < " + name + " > 코드 추가");
     }
-    public static class InsertAsyncTask extends AsyncTask<CodeCellEntity, Void, Void> {
+
+    private static class InsertAsyncTask extends AsyncTask<CodeCellEntity, Void, Void> {
         @Override
         protected Void doInBackground(CodeCellEntity... codeCellEntities) { //TODO * DB에 등록하는 동안 원 뺑글뺑글 돌게 만들자
             DB.DAO().insertAll(codeCellEntities);
@@ -55,14 +133,16 @@ public class DataManager {
     public static void reflectAllCodeData(RecyclerAdapter adapter){
         new SelectAllAsyncTask(adapter).execute();
     }
-    public static class SelectAllAsyncTask extends AsyncTask<Void, Void, Void>{
+
+    private static class SelectAllAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private RecyclerAdapter adapter = null;
 
-        private SelectAllAsyncTask(){
+        private SelectAllAsyncTask() {
             //Don't do anything.
         }
-        private SelectAllAsyncTask(RecyclerAdapter adapter){
+
+        private SelectAllAsyncTask(RecyclerAdapter adapter) {
             this.adapter = adapter;
         }
 
@@ -123,11 +203,13 @@ public class DataManager {
     public static void getCodeContent(CodeCellEntity entity, Reflectable reflectable){
         new GetCodeContent(entity, reflectable).execute();
     }
-    public static class GetCodeContent extends AsyncTask<Void, Void, Void> {
+
+    private static class GetCodeContent extends AsyncTask<Void, Void, Void> {
         private final CodeCellEntity entity;
         private final Reflectable reflectable;
         private String code;
-        public GetCodeContent(CodeCellEntity entity, Reflectable reflectable){
+
+        public GetCodeContent(CodeCellEntity entity, Reflectable reflectable) {
             this.entity = entity;
             this.reflectable = reflectable;
         }

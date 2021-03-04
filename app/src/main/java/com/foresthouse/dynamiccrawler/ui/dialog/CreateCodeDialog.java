@@ -21,17 +21,17 @@ public class CreateCodeDialog {
     public void showDialog() {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_create_code);
-        final EditText  editText = (EditText) dialog.findViewById(R.id.et_code_name);
-        final Button createBtn = (Button) dialog.findViewById(R.id.btn_create_code);
-        final Button cancelBtn = (Button) dialog.findViewById(R.id.btn_cancel_create_code);
-        final TextView hint = (TextView) dialog.findViewById(R.id.tv_create_code_hint);
+        final EditText editText = dialog.findViewById(R.id.et_code_name);
+        final Button createBtn = dialog.findViewById(R.id.btn_create_code);
+        final Button cancelBtn = dialog.findViewById(R.id.btn_cancel_create_code);
+        final TextView hint = dialog.findViewById(R.id.tv_create_code_hint);
 
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = editText.getText().toString();
                 if (name.equals("")) {
-                    hint.setText(DataManager.getStringResource(context, R.string.str_create_code_hint));
+                    hint.setText(DataManager.getStringResource(R.string.str_create_code_hint));
                     hint.setVisibility(View.VISIBLE);
                 } else {
                     CodeListFragment.ignoreChangeOnce = false;

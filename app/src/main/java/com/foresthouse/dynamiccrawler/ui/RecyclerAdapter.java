@@ -82,21 +82,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Log.d(TAG, "onItemSwipe: "+direction);
         final CodeCellEntity curCell = CodeCellEntityBundle.get(pos);
         if (direction == LEFT) { //LEFT Swipe
-            Generator.makeYNDialog(ctx, curCell.getCodeName() +" "+ DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_delete),
-                                   DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_delete_warn_msg),
-                                   DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_delete),
-                                   DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_cancel), null,
-                                   new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    DataManager.removeCode(curCell);
-                    CodeCellEntityBundle.remove(pos);
-                    if (!CodeCellEntityBundle.isEmpty()) {
-                        CodeListFragment.ignoreChangeOnce = true;
-                    }
-                    notifyItemRemoved(pos);
-                    Generator.makeToastMessage(MainActivity.ApplicationContext, DataManager.getStringResource(MainActivity.ApplicationContext,
-                                                                                                              R.string.str_deleted));
+            Generator.makeYNDialog(ctx, curCell.getCodeName() + " " + DataManager.getStringResource(R.string.str_delete),
+                                   DataManager.getStringResource(R.string.str_delete_warn_msg), DataManager.getStringResource(R.string.str_delete),
+                                   DataManager.getStringResource(R.string.str_cancel), null, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            DataManager.removeCode(curCell);
+                            CodeCellEntityBundle.remove(pos);
+                            if (!CodeCellEntityBundle.isEmpty()) {
+                                CodeListFragment.ignoreChangeOnce = true;
+                            }
+                            notifyItemRemoved(pos);
+                            Generator.makeToastMessage(MainActivity.ApplicationContext, DataManager.getStringResource(R.string.str_deleted));
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
@@ -165,10 +162,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public static CodeCellEntity getSelectedCell() {
         if (SelectedCell == null) {
             Log.w(TAG, "getSelectedCell: 선택된 코드를 불러올 수 없음.");
-            Generator.makeYNDialog(MainActivity.ApplicationContext, DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_error_occured),
-                                   "Error Code : Cannot check selected cell",
-                                   DataManager.getStringResource(MainActivity.ApplicationContext, R.string.str_confirm),
-                                   null, null, null, null, null, null);
+            Generator.makeYNDialog(MainActivity.ApplicationContext, DataManager.getStringResource(R.string.str_error_occured),
+                                   "Error Code : Cannot check selected cell", DataManager.getStringResource(R.string.str_confirm), null, null, null,
+                                   null, null, null);
             return new CodeCellEntity("[ Error ]", false, false, "An error occurred :(\n" + "Error Code : Cannot check selected cell\n" +
                     "If this error continues in the future, please send feedback with 'ErrorCode' and the thing you tried to do to DEV e-mail." +
                     "(You can check e-mail on PlayStore)" +
