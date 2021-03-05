@@ -1,0 +1,4 @@
+1. 사용자의 코드를 Rhino Engine 이 성능레벨에 따라 컴파일 또는 인터프린팅하여 실행합니다.
+2. 코드에서 Api 클래스를 참조할 경우 실제 앱 내의 Api.class 의 @JSStaticMethod 가 참조됩니다.
+3. JS 용 스레드에서 코드가 실행될 때, UI 에 접근하는 명령일 경우 메인스레드로 post 한 뒤 작업 완료시까지 정지합니다.
+4. DCJavascriptInterface 를 통하여 JS 세션에 데이터를 넘깁니다.
