@@ -4,14 +4,37 @@ String hello()
 void log()
 안드로이드 디버그 시 로그창에 분기점을 띄웁니다.
 makeToast(String msg)
+토스트 메세지를 생성합니다.
 makePopup(String title, String msg)
+팝업 다이얼로그를 생성합니다.
 
 //File Command
 String getDefaultPath()
+앱의 기본 저장소 경로를 불러옵니다.
 String getAbsolutePath()
+내부 스토리지의 절대경로를 불러옵니다.
+해당 기능은 안드로이드 신규 버전에서는 사용할 수 없습니다.
 void writeFile(String path, String fileName, String content)
+지정한 경로에 파일을 생성합니다.
 String readFile(String path, String fileName)
+지정한 경로의 특정 파일을 불러옵니다.
 
-//View Command
+//View Property Command
 void maximizeWindow()
+WebView 창을 최대화 시킵니다.
 void minimizeWindow()
+WebView 창을 최소화 시킵니다.
+
+//WebView Control Command
+void start()
+WebView 를 초기화시키고 시작합니다.
+void suspend()
+모든 작업을 중단한 뒤 현재 스레드를 종료합니다.
+void disableJS()
+WebView 의 JS 사용 여부를 False 로 설정합니다.
+void loadUrl(String url)
+지정된 Url 로 이동합니다.
+String getHtml()
+해당 페이지에서 동적으로 생성된 소스를 포함하여 모든 HTML 데이터를 반환합니다.
+void execute(String command)
+페이지 내에서 인터프린팅 방식으로 JS 명령어를 실행합니다.

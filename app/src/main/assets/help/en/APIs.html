@@ -1,15 +1,39 @@
-//Debug Command
-String hello()
-void log()
-makeToast(String msg)
-makePopup(String title, String msg)
+<h1>//Debug Command</h1>
+<h3>String hello()</h3>
+Prints "FELLO HELLO!"
+<h3>void log()</h3>
+Make quarter line into android debug log.
+<h3>makeToast(String msg)</h3>
+Make toast message.
+<h3>makePopup(String title, String msg)</h3>
+Make popup dialog.
 
 //File Command
-String getDefaultPath()
-String getAbsolutePath()
-void writeFile(String path, String fileName, String content)
-String readFile(String path, String fileName)
+<h3>String getDefaultPath()</h3>
+Get application's default path.
+<h3>String getAbsolutePath()</h3>
+Get internal storage's absolute path.
+This command can not be used in recent android version.
+<h3>void writeFile(String path, String fileName, String content)</h3>
+Write file to designated path.
+<h3>String readFile(String path, String fileName)</h3>
+Read file from designated path.
 
-//View Command
-void maximizeWindow()
-void minimizeWindow()
+//View Property Command
+<h3>void maximizeWindow()</h3>
+Maximize the WebView window.
+<h3>void minimizeWindow()</h3>
+Minimize the WebView window.
+
+//WebView Control Command
+<h3>void start()</h3>
+Initialize and start the WebView.
+<h3>void suspend()</h3>
+Stop all processes and suspend current thread.
+<h3>void disableJS()</h3>
+Set 'JavaScriptEnabled' option to 'False'
+
+<h3>void loadUrl(String url)</h3>
+Load page with using url.
+<h3>String getHtml()</h3>
+void execute(String command)
