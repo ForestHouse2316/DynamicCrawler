@@ -10,7 +10,7 @@
             app:iconSpaceReserved="false">
             <intent
                 android:targetPackage="com.foresthouse.dynamiccrawler"
-                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.BasicGuide"></intent>
+                android:targetClass="com.foresthouse.dynamiccrawler.ui.nav_fragment.help.BasicGuide" />
         </PreferenceScreen>
         <PreferenceScreen
             android:title="@string/help_ex_connect_to_google"
