@@ -17,8 +17,8 @@ public class HtmlDocViewer {
 
     @SuppressLint("SetJavaScriptEnabled")
     public static void showHtml(String name, AppCompatActivity activity) {
-        WebView viewer = activity.findViewById(R.id.wv_html_doc_viewer);
         activity.setContentView(R.layout.activity_html_doc_viewer);
+        WebView viewer = activity.findViewById(R.id.wv_html_doc_viewer);
         viewer.setWebViewClient(new WebViewClient());
         viewer.getSettings().setJavaScriptEnabled(true);
         viewer.loadUrl("file:///android_asset/" + name + ".html");

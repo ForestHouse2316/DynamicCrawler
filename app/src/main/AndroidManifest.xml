@@ -19,6 +19,8 @@
         <activity android:name=".ui.nav_fragment.help.BasicGuide" />
         <activity android:name=".ui.nav_fragment.setting.PatchNote" />
         <activity android:name=".ui.nav_fragment.setting.ThirdPartyInfo" />
+        <activity android:name=".ui.nav_fragment.help.APIs"/>
+        <activity android:name=".ui.nav_fragment.help.WorkingPrinciple"/>
         <activity
             android:name=".ui.EditorActivity"
             android:windowSoftInputMode="adjustResize" />
