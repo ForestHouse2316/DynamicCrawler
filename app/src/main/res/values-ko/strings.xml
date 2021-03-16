@@ -34,4 +34,7 @@
     <string name="help_working_principle">작동원리</string>
     <string name="help_ex_connect_to_google">예제 - 구글 접속하기</string>
     <string name="env_language_code">ko</string>
+    <string name="arr_sys_lang">시스템 언어</string>
+    <string name="set_lang">언어</string>
+    <string name="set_lang_summary">UI 기본언어를 설정합니다</string>
 </resources>

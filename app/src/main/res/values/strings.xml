@@ -40,6 +40,10 @@
     <string name="help_working_principle">Working Principle</string>
     <string name="help_ex_connect_to_google">Ex - Connect to GOOGLE</string>
     <string name="env_language_code">en</string>
+    <string name="arr_sys_lang">System Language</string>
+    <string name="str_ui" translatable="false">UI</string>
+    <string name="set_lang">Language</string>
+    <string name="set_lang_summary">Set default language of UI</string>
     <!-- Preference Titles -->
 
     <!-- Messages Preferences -->

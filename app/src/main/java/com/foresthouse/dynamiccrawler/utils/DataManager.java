@@ -49,6 +49,9 @@ public class DataManager {
         public void run() {
             DB = AppDataBase.getAppDataBase(ctx);
             RootPreference = PreferenceManager.getDefaultSharedPreferences(MainActivity.ApplicationContext);
+            RootPreference.registerOnSharedPreferenceChangeListener(((sharedPreferences, key) -> {
+                Log.w(TAG, "run: Preference Value Change Detected", new Exception("") );
+            }));
         }
     }
 

@@ -9,4 +9,12 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>@string/arr_sys_lang</item>
+        <item>English</item>
+        <item>한국어</item>
+        <item>日本語(Unimplemented)</item>
+        <item>中國語(Unimplemented)</item>
+    </string-array>
 </resources>

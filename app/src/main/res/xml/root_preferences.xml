@@ -26,6 +26,16 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:title="@string/str_ui"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            app:entries="@array/languages"
+            app:entryValues="@array/languages"
+            app:iconSpaceReserved="false"
+            android:title="@string/set_lang"
+            android:summary="@string/set_lang_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         app:title="@string/str_info"
         app:iconSpaceReserved="false">
 
