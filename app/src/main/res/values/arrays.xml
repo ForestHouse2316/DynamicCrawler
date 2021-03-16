@@ -17,4 +17,11 @@
         <item>日本語(Unimplemented)</item>
         <item>中國語(Unimplemented)</item>
     </string-array>
+    <string-array name="language_codes">
+        <item>sys</item>
+        <item>en</item>
+        <item>ko</item>
+        <item>jp</item>
+        <item>zh</item>
+    </string-array>
 </resources>

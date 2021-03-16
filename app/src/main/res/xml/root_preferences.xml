@@ -30,10 +30,11 @@
         app:iconSpaceReserved="false">
         <ListPreference
             app:entries="@array/languages"
-            app:entryValues="@array/languages"
+            app:entryValues="@array/language_codes"
             app:iconSpaceReserved="false"
             android:title="@string/set_lang"
-            android:summary="@string/set_lang_summary"/>
+            android:summary="@string/set_lang_summary"
+            android:key="set_language"/>
     </PreferenceCategory>
     <PreferenceCategory
         app:title="@string/str_info"

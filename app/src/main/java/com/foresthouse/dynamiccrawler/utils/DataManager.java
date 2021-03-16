@@ -3,7 +3,10 @@ package com.foresthouse.dynamiccrawler.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.foresthouse.dynamiccrawler.MainActivity;
@@ -19,6 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
@@ -49,8 +53,13 @@ public class DataManager {
         public void run() {
             DB = AppDataBase.getAppDataBase(ctx);
             RootPreference = PreferenceManager.getDefaultSharedPreferences(MainActivity.ApplicationContext);
-            RootPreference.registerOnSharedPreferenceChangeListener(((sharedPreferences, key) -> {
-                Log.w(TAG, "run: Preference Value Change Detected", new Exception("") );
+            RootPreference.registerOnSharedPreferenceChangeListener(((sharedPreferences, key) -> { //언어 변경 리스너
+                Locale locale = new Locale(RootPreference.getString("set_language", "sys"));
+                Locale.setDefault(locale);
+                Resources resources = activity.getResources(); //TODO Complete this part
+                Configuration config = resources.getConfiguration();
+                config.setLocale(locale);
+                resources.updateConfiguration(config, resources.getDisplayMetrics());
             }));
         }
     }
