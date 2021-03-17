@@ -2,6 +2,7 @@ package com.foresthouse.dynamiccrawler.utils;
 //TODO DATAMANAGER의 Async를 모두 RxJava 또는 스레드로 바꿔서 사용하기...
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -26,6 +27,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 public class DataManager {
@@ -54,12 +56,25 @@ public class DataManager {
             DB = AppDataBase.getAppDataBase(ctx);
             RootPreference = PreferenceManager.getDefaultSharedPreferences(MainActivity.ApplicationContext);
             RootPreference.registerOnSharedPreferenceChangeListener(((sharedPreferences, key) -> { //언어 변경 리스너
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.MainContext.setLocale(RootPreference.getString("set_language", "en"));
+                }
+            }).start();
+
+
+
+
+
+/*
+                Log.d(TAG, "run: Default Language has been changed to => " + RootPreference.getString(key, "NONE"));
                 Locale locale = new Locale(RootPreference.getString("set_language", "sys"));
                 Locale.setDefault(locale);
-                Resources resources = activity.getResources(); //TODO Complete this part
+                Resources resources = MainActivity.MainContext.getResources(); //TODO Complete this part
                 Configuration config = resources.getConfiguration();
                 config.setLocale(locale);
-                resources.updateConfiguration(config, resources.getDisplayMetrics());
+                resources.updateConfiguration(config, resources.getDisplayMetrics());    */
             }));
         }
     }

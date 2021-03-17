@@ -3,8 +3,12 @@ package com.foresthouse.dynamiccrawler;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -23,6 +27,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -117,6 +123,17 @@ public class MainActivity extends AppCompatActivity {
         });
         waitable.startWaiting(Integer.parseInt(DataManager.RootPreference.getString("interpreting_interval", "10")));
         Log.d(TAG, "postAndWait: post 후 대기중. . .");
+    }
+
+    public void setLocale(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Configuration configuration = this.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        configuration.setLayoutDirection(locale);
+
+        return this.createConfigurationContext(configuration);
     }
 
     @Override
