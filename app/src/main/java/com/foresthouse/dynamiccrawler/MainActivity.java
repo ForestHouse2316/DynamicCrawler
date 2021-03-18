@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setLocale(String language) {
+        Log.d(TAG, "setLocale: Change Language to => "+language);
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
 
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         configuration.setLocale(locale);
         configuration.setLayoutDirection(locale);
 
-        return this.createConfigurationContext(configuration);
     }
 
     @Override

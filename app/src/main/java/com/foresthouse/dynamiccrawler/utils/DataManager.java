@@ -1,6 +1,7 @@
 package com.foresthouse.dynamiccrawler.utils;
 //TODO DATAMANAGER의 Async를 모두 RxJava 또는 스레드로 바꿔서 사용하기...
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +35,7 @@ public class DataManager {
     private final static String TAG = "[ DataManager ]";
 
     public static AppDataBase DB;
+    public static String CurrentLocale;
     public static SharedPreferences RootPreference;
     private static ArrayList<CodeCellEntity> mArrayList;
 
@@ -42,7 +44,7 @@ public class DataManager {
         Thread thread = new Thread(initializer);
         thread.setDaemon(true);
         thread.start();
-    }
+    } //TODO 이니셜라이저를 클래스 초기화 메서드로 대체하는 실험 해보기
 
     private static class Initializer implements Runnable {
         Context ctx;
@@ -55,6 +57,7 @@ public class DataManager {
         public void run() {
             DB = AppDataBase.getAppDataBase(ctx);
             RootPreference = PreferenceManager.getDefaultSharedPreferences(MainActivity.ApplicationContext);
+            CurrentLocale = RootPreference.getString("set_language", "en");
             RootPreference.registerOnSharedPreferenceChangeListener(((sharedPreferences, key) -> { //언어 변경 리스너
             new Thread(new Runnable() {
                 @Override
@@ -62,25 +65,20 @@ public class DataManager {
                     MainActivity.MainContext.setLocale(RootPreference.getString("set_language", "en"));
                 }
             }).start();
-
-
-
-
-
-/*
-                Log.d(TAG, "run: Default Language has been changed to => " + RootPreference.getString(key, "NONE"));
-                Locale locale = new Locale(RootPreference.getString("set_language", "sys"));
-                Locale.setDefault(locale);
-                Resources resources = MainActivity.MainContext.getResources(); //TODO Complete this part
-                Configuration config = resources.getConfiguration();
-                config.setLocale(locale);
-                resources.updateConfiguration(config, resources.getDisplayMetrics());    */
             }));
         }
     }
 
-    public static String getStringResource(int id) {
-        return MainActivity.ApplicationContext.getString(id).replace("\\n", "\n");
+//    public static String getStringResource(int id) {
+//        return MainActivity.ApplicationContext.getString(id).replace("\\n", "\n");
+//    }
+
+    //Locale 별 String 리소스 가져오기
+    public static String getStringResources(int resId, String locale) {
+        //TODO 로케일이라던가.. 그런거 매개변수 정리하고 어떻게 할지 정하기. 액티비티 리스타트도 필요함. recread(); 하면 되는 것 같더군
+        Configuration configuration = new Configuration(MainActivity.ApplicationContext.getResources().getConfiguration());
+        configuration.setLocale(new Locale(locale));
+        return MainActivity.ApplicationContext.createConfigurationContext(configuration).getResources().getString(resId);
     }
 
     //파일 입출력
