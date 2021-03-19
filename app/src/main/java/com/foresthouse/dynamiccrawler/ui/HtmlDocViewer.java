@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HtmlDocViewer {
 
     public static void showHelp(String name, AppCompatActivity activity) {
-        showHtml("help/" + DataManager.getStringResource(R.string.env_language_code) + "/" + name, activity);
+        showHtml("help/" + DataManager.getStringResources(R.string.env_language_code) + "/" + name, activity);
     }
 
     @SuppressLint("SetJavaScriptEnabled")

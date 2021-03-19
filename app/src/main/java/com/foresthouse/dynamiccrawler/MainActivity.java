@@ -16,6 +16,7 @@ import android.view.WindowManager;
 
 import com.foresthouse.dynamiccrawler.ui.dialog.CreateCodeDialog;
 import com.foresthouse.dynamiccrawler.utils.DataManager;
+import com.foresthouse.dynamiccrawler.utils.Distinguisher;
 import com.foresthouse.dynamiccrawler.utils.Waitable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -125,15 +126,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "postAndWait: post 후 대기중. . .");
     }
 
-    public void setLocale(String language) {
-        Log.d(TAG, "setLocale: Change Language to => "+language);
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-
-        Configuration configuration = this.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.setLayoutDirection(locale);
-
+    public void refreshMainActivity() {
+        Log.d(TAG, "refreshMainActivity: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        MainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Distinguisher.checkSDKVersion() >= 11) {
+                    recreate();
+                }
+                else {
+                    Intent intent = getIntent();
+                    overridePendingTransition(0, 0);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

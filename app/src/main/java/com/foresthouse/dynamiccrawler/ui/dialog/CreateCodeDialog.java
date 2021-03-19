@@ -31,7 +31,7 @@ public class CreateCodeDialog {
             public void onClick(View view) {
                 String name = editText.getText().toString();
                 if (name.equals("")) {
-                    hint.setText(DataManager.getStringResource(R.string.str_create_code_hint));
+                    hint.setText(DataManager.getStringResources(R.string.str_create_code_hint));
                     hint.setVisibility(View.VISIBLE);
                 } else {
                     CodeListFragment.ignoreChangeOnce = false;

@@ -62,7 +62,7 @@ public class DataManager {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    MainActivity.MainContext.setLocale(RootPreference.getString("set_language", "en"));
+                    MainActivity.MainContext.refreshMainActivity();
                 }
             }).start();
             }));
@@ -74,10 +74,11 @@ public class DataManager {
 //    }
 
     //Locale 별 String 리소스 가져오기
-    public static String getStringResources(int resId, String locale) {
-        //TODO 로케일이라던가.. 그런거 매개변수 정리하고 어떻게 할지 정하기. 액티비티 리스타트도 필요함. recread(); 하면 되는 것 같더군
+    public static String getStringResources(int resId) {
+        //TODO FIX
+        Log.d(TAG, "getStringResources: locale =>>>>>>>>>>> "+CurrentLocale);
         Configuration configuration = new Configuration(MainActivity.ApplicationContext.getResources().getConfiguration());
-        configuration.setLocale(new Locale(locale));
+        configuration.setLocale(new Locale(CurrentLocale));
         return MainActivity.ApplicationContext.createConfigurationContext(configuration).getResources().getString(resId);
     }
 

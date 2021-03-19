@@ -83,8 +83,8 @@ public class Api extends ScriptableObject {
             return Environment.getExternalStorageDirectory().getAbsolutePath();
         } else {
             MainActivity.MainHandler.post(() -> Generator
-                    .makeNotifyDialog(MainActivity.ApplicationContext, "Warning", DataManager.getStringResource(R.string.str_deprecated_fileIO),
-                                      DataManager.getStringResource(R.string.str_confirm)));
+                    .makeNotifyDialog(MainActivity.ApplicationContext, "Warning", DataManager.getStringResources(R.string.str_deprecated_fileIO),
+                                      DataManager.getStringResources(R.string.str_confirm)));
             suspend();
             return null;
         }
