@@ -1,5 +1,6 @@
 package com.foresthouse.dynamiccrawler.utils;
 //TODO DATAMANAGER의 Async를 모두 RxJava 또는 스레드로 바꿔서 사용하기...
+//TODO set_language 등의 고정 스트링 모두 Constant 로 대체하기
 
 import android.app.Activity;
 import android.content.Context;
@@ -44,7 +45,7 @@ public class DataManager {
         Thread thread = new Thread(initializer);
         thread.setDaemon(true);
         thread.start();
-    } //TODO 이니셜라이저를 클래스 초기화 메서드로 대체하는 실험 해보기
+    }
 
     private static class Initializer implements Runnable {
         Context ctx;
@@ -63,23 +64,26 @@ public class DataManager {
                 @Override
                 public void run() {
                     MainActivity.MainContext.refreshMainActivity();
+
+
                 }
             }).start();
             }));
         }
     }
 
-//    public static String getStringResource(int id) {
-//        return MainActivity.ApplicationContext.getString(id).replace("\\n", "\n");
-//    }
 
     //Locale 별 String 리소스 가져오기
     public static String getStringResources(int resId) {
-        //TODO FIX
-        Log.d(TAG, "getStringResources: locale =>>>>>>>>>>> "+CurrentLocale);
-        Configuration configuration = new Configuration(MainActivity.ApplicationContext.getResources().getConfiguration());
-        configuration.setLocale(new Locale(CurrentLocale));
-        return MainActivity.ApplicationContext.createConfigurationContext(configuration).getResources().getString(resId);
+        Context localeContext = LocaleHelper.setLocale(MainActivity.ApplicationContext, RootPreference.getString("set_language", "en"));
+        Resources resources = localeContext.getResources();
+        return resources.getString(resId);
+
+//        Log.d(TAG, "getStringResources: locale =>>>>>>>>>>> "+CurrentLocale);
+//        Configuration configuration = new Configuration(MainActivity.ApplicationContext.getResources().getConfiguration());
+//        configuration.setLocale(new Locale(CurrentLocale));
+//        Log.d(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+configuration.getLocales().toString());
+//        return MainActivity.ApplicationContext.createConfigurationContext(configuration).getResources().getString(resId);
     }
 
     //파일 입출력
