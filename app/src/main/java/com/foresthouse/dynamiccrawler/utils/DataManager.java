@@ -3,6 +3,7 @@ package com.foresthouse.dynamiccrawler.utils;
 //TODO set_language 등의 고정 스트링 모두 Constant 로 대체하기
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +12,10 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.util.Log;
+import android.view.View;
 
 import com.foresthouse.dynamiccrawler.MainActivity;
+import com.foresthouse.dynamiccrawler.R;
 import com.foresthouse.dynamiccrawler.ui.RecyclerAdapter;
 import com.foresthouse.dynamiccrawler.utils.database.AppDataBase;
 import com.foresthouse.dynamiccrawler.utils.database.CodeCellEntity;
@@ -64,7 +67,8 @@ public class DataManager {
                 @Override
                 public void run() {
                     MainActivity.MainContext.refreshMainActivity();
-
+                    View nav_codes = MainActivity.MainContext.findViewById(R.id.nav_codes);
+                    nav_codes
 
                 }
             }).start();

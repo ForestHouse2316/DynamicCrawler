@@ -17,12 +17,10 @@ public class LocaleHelper { //TODO : Access Modifier => private ... or move this
     public static Context setLocale(Context context, String language) {
         persist(context, language);
 
-//        // updating the language for devices above android nougat
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            return updateResources(context, language);
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+//            return updateResourcesLegacy(context, language);
 //        }
-        // for devices having lower version of android os
-        return updateResourcesLegacy(context, language);
+        return updateResources(context, language);
     }
 
     private static void persist(Context context, String language) {
