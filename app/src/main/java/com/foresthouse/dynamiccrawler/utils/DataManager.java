@@ -67,8 +67,8 @@ public class DataManager {
                 @Override
                 public void run() {
                     MainActivity.MainContext.refreshMainActivity();
-                    View nav_codes = MainActivity.MainContext.findViewById(R.id.nav_codes);
-                    nav_codes
+                    //View nav_codes = MainActivity.MainContext.findViewById(R.id.nav_codes);
+                    //TODO 언어 설정
 
                 }
             }).start();
