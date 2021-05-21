@@ -21,4 +21,18 @@ This program is a dynamic crawler of android os, and follows the following decla
 Only is shape of donation allowed.
 * For educational end, the project is based on GPLv3 License.  
 Anyone hwo apply this into other project, please go public your source code.
+* All can contribute to improve this app, creating new branches.
+* This is not the app for hacking. We prohibit any shape of malicious behaviors and will try to block that.  
+Also this can be punished by each countries judiciary.  
+(e.g. Spam bot / Maliciouse comments / Stealing personal information / Internet scam / etc.)
 
+---
+
+## Preview
+
+[Main Page]  
+[Code Edit]  
+[Code Execution]  
+[Code Sharing]  
+[Tutorial]  
+[Setting]  
